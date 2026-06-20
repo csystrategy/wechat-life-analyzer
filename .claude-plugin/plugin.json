@@ -1,0 +1,8 @@
+{
+  "name": "wechat-life-analyzer",
+  "description": "把自己的微信聊天记录变成一套关系与人生操作系统:关系图谱+逐人相处建议+工作/投资/亲密关系三维自我观察+人生诊断。从解密聊天记录开始,全程本地。",
+  "version": "1.0.0",
+  "author": { "name": "csystrategy" },
+  "license": "MIT",
+  "homepage": "https://github.com/csystrategy/wechat-life-analyzer"
+}

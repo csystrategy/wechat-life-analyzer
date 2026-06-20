@@ -1,0 +1,10 @@
+{
+  "_说明": "运行 engine.py setup 会自动探测并生成 config.json,一般无需手填。",
+  "wechat_db_storage": "(自动探测: ~/Library/Containers/com.tencent.xinWeChat/.../db_storage)",
+  "workdir": "(默认技能下 workspace/)",
+  "decrypted_dir": "(默认 workspace/decrypted)",
+  "keys_file": "(默认 workspace/all_keys.json, 首次取密钥后生成)",
+  "decrypt_tool_dir": "(默认 workspace/wechat-decrypt, 首次 git clone)",
+  "venv_python": "(你的 python3, 需装 pycryptodome zstandard)",
+  "me": "(解密后自动探测本人wxid)"
+}

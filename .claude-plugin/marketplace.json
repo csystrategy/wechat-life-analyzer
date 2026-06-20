@@ -1,0 +1,11 @@
+{
+  "name": "wechat-life-analyzer",
+  "plugins": [
+    {
+      "name": "wechat-life-analyzer",
+      "source": { "source": "github", "repo": "csystrategy/wechat-life-analyzer" },
+      "description": "把自己的微信聊天记录变成关系图谱+逐人相处建议+三维自我观察+人生诊断。仅本地、极私密。",
+      "version": "1.0.0"
+    }
+  ]
+}

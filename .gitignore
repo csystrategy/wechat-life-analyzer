@@ -1,0 +1,9 @@
+# 个人安装/运行产物不入库(本工具的私密数据默认在 ~/.wechat-life-analyzer/,本就不在仓库里)
+**/config.json
+**/workspace/
+**/reports/
+**/history/
+*.bin
+*.dmg
+WeChat*.app/
+all_keys.json
