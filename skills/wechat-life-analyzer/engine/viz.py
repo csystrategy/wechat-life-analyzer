@@ -10,13 +10,13 @@ WS=os.path.join(DATA,"workspace"); REP=os.path.join(DATA,"reports"); os.makedirs
 e=lambda s: html.escape(str(s if s is not None else ""))
 def jload(p):
     fp=os.path.join(WS,p); return json.load(open(fp,encoding="utf-8")) if os.path.exists(fp) else None
-CSS="""<style>:root{--bg:#0b0e14;--card:#141925;--line:#263042;--tx:#e6ebf2;--mut:#8a97ab;--gold:#f4c869;--acc:#6ea8fe}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(1100px 650px at 70% -10%,#1a2336,#0b0e14 55%);color:var(--tx);font-family:-apple-system,"PingFang SC","Microsoft Yahei",system-ui,sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:30px 22px 90px}h1{font-size:25px;margin:0 0 4px}.sub{color:var(--mut);font-size:13px;margin-bottom:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}h2{font-size:20px;margin:28px 0 10px}
-ul{margin:5px 0;padding-left:18px}li{margin:6px 0;font-size:13.5px;color:#cdd7e4}.gold{color:var(--gold)}.mut{color:var(--mut)}
-.chip{display:inline-block;font-size:12px;padding:3px 9px;border-radius:8px;margin:3px 4px 3px 0;background:#1b2230;border:1px solid var(--line)}
-.banner{background:linear-gradient(135deg,#1c2740,#161b27);border-left:3px solid var(--gold);border-radius:12px;padding:14px 18px;margin:14px 0;font-size:14.5px}</style>"""
+CSS="""<style>:root{--bg:#FAF9F6;--card:rgba(255,255,255,.72);--line:rgba(20,24,33,.08);--line2:rgba(20,24,33,.13);--tx:#2B2F36;--mut:#7A808C;--gold:#C2992E;--acc:#8C7BA8;--serif:'Songti SC','STSong','Noto Serif SC',ui-serif,serif;--sans:'Inter',-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft Yahei',system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;color:var(--tx);line-height:1.75;font-family:var(--sans);-webkit-font-smoothing:antialiased;background:radial-gradient(1100px 800px at 84% -10%,rgba(140,123,168,.07),transparent 60%),radial-gradient(900px 720px at -6% 112%,rgba(201,169,140,.06),transparent 55%),var(--bg)}
+.wrap{max-width:880px;margin:0 auto;padding:50px 26px 110px}h1{font-family:var(--serif);font-size:30px;font-weight:600;margin:0 0 6px;letter-spacing:.5px;color:#23262c}.sub{color:var(--mut);font-size:13.5px;margin-bottom:22px}
+.card{background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:16px;padding:19px 23px;margin:15px 0;box-shadow:0 10px 30px rgba(20,24,33,.05)}h2{font-family:var(--serif);font-size:20px;font-weight:600;margin:30px 0 12px;color:#2b2f36}
+ul{margin:6px 0;padding-left:20px}li{margin:8px 0;font-size:14.5px;color:#454b54}.gold{color:var(--gold)}.mut{color:var(--mut)}
+.chip{display:inline-block;font-size:12px;padding:4px 11px;border-radius:9px;margin:3px 5px 3px 0;background:rgba(20,24,33,.05);border:1px solid var(--line);color:#5a606b}
+.banner{background:rgba(140,123,168,.08);border-left:3px solid var(--acc);border-radius:0 12px 12px 0;padding:15px 20px;margin:16px 0;font-size:14.5px;color:#4a4f57}</style>"""
 
 def graph_html():
     D=jload("graph_data.json")
@@ -59,8 +59,8 @@ def strategy_html():
     tw="".join(f'<label style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px"><input type=checkbox><span><b>{e(x["name"])}</b> — {e(x["action"])}</span></label>' for x in S.get("this_week",[]))
     ap=""
     for t in S.get("action_plan",[]):
-        ppl="".join(f'<div style="padding:6px 0;border-top:1px solid #1d2533;font-size:13px"><b class=gold>{e(p["name"])}</b> <span class=mut>{e(p.get("status",""))}</span><div>{e(p.get("how",""))}</div></div>' for p in t.get("people",[]))
-        ap+=f'<div class=card><h2 style="font-size:16px">{e(t["tier"])} <span class=chip style="background:var(--gold);color:#0b0e14">{e(t.get("cadence",""))}</span></h2><div class=mut>{e(t.get("purpose",""))}</div>{ppl}</div>'
+        ppl="".join(f'<div style="padding:6px 0;border-top:1px solid var(--line);font-size:13px"><b class=gold>{e(p["name"])}</b> <span class=mut>{e(p.get("status",""))}</span><div>{e(p.get("how",""))}</div></div>' for p in t.get("people",[]))
+        ap+=f'<div class=card><h2 style="font-size:16px">{e(t["tier"])} <span class=chip style="background:var(--gold);color:#fff">{e(t.get("cadence",""))}</span></h2><div class=mut>{e(t.get("purpose",""))}</div>{ppl}</div>'
     pp="".join(f"<li>{e(x)}</li>" for x in S.get("proactive_principles",[]))
     la="".join(f'<div class="card" style="padding:11px 13px;margin:8px 0"><b class=gold>{e(a["area"])}</b><div>{e(a["advice"])}</div></div>' for a in S.get("life_advice",[]))
     h=f"""<!DOCTYPE html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>联系策略</title>{CSS}</head>
