@@ -21,34 +21,10 @@ ul{margin:5px 0;padding-left:18px}li{margin:6px 0;font-size:13.5px;color:#cdd7e4
 def graph_html():
     D=jload("graph_data.json")
     if not D: print("缺 graph_data.json,跳过 graph"); return
-    DATA=json.dumps(D,ensure_ascii=False).replace("</","<\\/")
-    h=f"""<!DOCTYPE html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
-<title>关系图谱</title><script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>{CSS}
-<style>#g{{width:100%;height:600px;background:#0d1118;border:1px solid var(--line);border-radius:14px}}
-#dt{{position:fixed;right:16px;top:16px;width:300px;max-height:80vh;overflow:auto;background:rgba(15,20,30,.95);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:12.5px;display:none}}
-#lg{{position:fixed;left:16px;top:80px;background:rgba(13,17,25,.8);border:1px solid var(--line);border-radius:10px;padding:9px;font-size:11.5px}}#lg div{{margin:3px 0}}#lg i{{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}}</style></head>
-<body><div class=wrap><h1>关系图谱</h1><div class=sub>圈=聊天量 · 颜色=圈层 · 连线=共同的群 · 点节点看详情 · 仅本地</div>
-<div class=banner id=hl></div><svg id=g></svg><div id=lg></div></div><div id=dt></div><script>
-const D={DATA};document.getElementById('hl').textContent='💡 '+(D.headline||'');
-const cl=[...new Set(D.nodes.map(n=>n.category||n.cluster))];const pal=['#6ea8fe','#f4c869','#7ee0a0','#f78fb3','#b693f7','#5fd0d6','#f0a868','#9bb1c9','#e57373','#82c785'];
-const col=d3.scaleOrdinal().domain(cl).range(pal);
-document.getElementById('lg').innerHTML=cl.map(c=>`<div><i style="background:${{col(c)}}"></i>${{c}}</div>`).join('');
-const W=innerWidth>1100?1040:innerWidth-44,H=600;const svg=d3.select('#g').attr('viewBox',[0,0,W,H]);const g=svg.append('g');
-svg.call(d3.zoom().scaleExtent([.3,4]).on('zoom',e=>g.attr('transform',e.transform)));
-const nodes=D.nodes.map(d=>({{...d}})),links=(D.links||[]).map(d=>({{...d}}));
-const r=d3.scaleSqrt().domain([0,d3.max(nodes,n=>n.total||1)]).range([5,28]);
-const sim=d3.forceSimulation(nodes).force('link',d3.forceLink(links).id(d=>d.id||d.name).distance(80)).force('charge',d3.forceManyBody().strength(-150)).force('center',d3.forceCenter(W/2,H/2)).force('c',d3.forceCollide().radius(d=>r(d.total||1)+4));
-const lk=g.append('g').attr('stroke','#3a4760').selectAll('line').data(links).join('line').attr('stroke-opacity',d=>Math.min(.5,.12+(d.weight||1)*.02)).attr('stroke-width',d=>Math.min(4,.6+(d.weight||1)*.12));
-const nd=g.append('g').selectAll('g').data(nodes).join('g').style('cursor','pointer').call(d3.drag().on('start',(e,d)=>{{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y}}).on('drag',(e,d)=>{{d.fx=e.x;d.fy=e.y}}).on('end',(e,d)=>{{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}}));
-nd.append('circle').attr('r',d=>r(d.total||1)).attr('fill',d=>col(d.category||d.cluster)).attr('fill-opacity',.9).attr('stroke','#0d1118').attr('stroke-width',1.5);
-nd.append('text').text(d=>d.name).attr('y',d=>r(d.total||1)+11).attr('text-anchor','middle').attr('font-size',10).attr('fill','#c7d2e2').attr('pointer-events','none').style('text-shadow','0 1px 3px #000');
-nd.on('click',(e,d)=>{{const el=document.getElementById('dt');el.style.display='block';el.innerHTML=`<b style="font-size:15px">${{d.name}}</b> <span class=mut>${{d.category||d.cluster||''}}</span>
-<div style="margin:6px 0" class=mut>${{d.role||''}}</div><div><span class=gold>建议联系</span>: ${{d.cadence||''}} ｜ 优先级 ${{d.priority||''}}</div>
-<div style="margin-top:6px"><span class=gold>怎么主动</span>: ${{d.how||''}}</div><div style="margin-top:6px" class=mut>${{d.strategy||''}}</div>
-<div style="margin-top:6px" class=mut>聊天 ${{(d.total||0).toLocaleString()}} 条 · 最近 ${{d.days_since}} 天前 · 趋势 ${{d.trend}}</div>`}});
-sim.on('tick',()=>{{lk.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);nd.attr('transform',d=>`translate(${{d.x}},${{d.y}})`)}});
-</script></body></html>"""
-    open(os.path.join(REP,"relationship-graph.html"),"w").write(h); print("-> reports/relationship-graph.html")
+    data=json.dumps(D,ensure_ascii=False).replace("</","<"+chr(92)+"/")
+    tpl=open(os.path.join(HERE,"graph_template.html"),encoding="utf-8").read()
+    open(os.path.join(REP,"relationship-graph.html"),"w",encoding="utf-8").write(tpl.replace("__DATA__",data))
+    print("-> reports/relationship-graph.html")
 
 def life_html():
     R=jload("life_advice.json")
