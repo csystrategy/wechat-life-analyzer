@@ -8,8 +8,24 @@
 
 > 全部在你**本地**完成，产出只存本地。这是极度私密的东西，**别外传**。
 
+## 安装
+
+**方式 A · 插件一键装（推荐）** —— 在 Claude Code 里依次输入：
+```
+/plugin marketplace add csystrategy/wechat-life-analyzer
+/plugin install wechat-life-analyzer@wechat-life-analyzer
+```
+
+**方式 B · 手动装** —— 把技能目录拷进你的 skills 文件夹：
+```
+git clone https://github.com/csystrategy/wechat-life-analyzer
+cp -R wechat-life-analyzer/skills/wechat-life-analyzer ~/.claude/skills/
+```
+
+> 你的私密数据（解密库、抽样、报告）一律存在 `~/.wechat-life-analyzer/`，**和代码、和这个仓库彻底分开**，永远不会被提交或外传。
+
 ## 怎么用
-把本目录放到 `~/.claude/skills/wechat-life-analyzer/`，然后在 Claude Code 里说：
+装好后，在 Claude Code 里说：
 > **「分析我的微信」** 或 **「做我的关系图谱和人生体检」**
 
 Claude 会按 `SKILL.md` 带你走：
